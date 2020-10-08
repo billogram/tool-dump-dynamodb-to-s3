@@ -10,6 +10,8 @@ table during the script work.
 The script is designed to be used in a AWS Glue `PythonShell` Job hence doesn't depend
 on anything but `boto3`.
 
+⚠️ AWS changes extra for scan operations.
+
 ### Requirements
 
 * Python >= 3.6.
@@ -18,8 +20,8 @@ on anything but `boto3`.
 ### Quick start
 
 ```
-git clone github.com/billogram/dump-dynamodb-to-s3
-cd dump_dynamodb_to_s3
+git clone https://github.com/billogram/dump-dynamodb-to-s3.git
+cd dump-dynamodb-to-s3
 python3 -m venv .venv
 source .venv/bin/activate
 pip3 install -r requirements.txt
@@ -29,13 +31,15 @@ python3 dump.py --table-name TABLE --s3-bucket BUCKET
 ### Advanced usage
 
 ```
+export AWS_ACCESS_KEY_ID=XXXX AWS_SESSION_TOKEN=XXXXXXXXXXX AWS_DEFAULT_REGION=eu-west-1
 python3 dump.py \
-    --table-name TABLE \
-    --s3-bucket BUCKET \
+    --table-name pa1-recipients \
+    --s3-bucket billogram-alpha-data-lake \
     --total-segments 4 \
-    --s3-prefix 'raw/dynampdb/TABLE/run_time=$(date -u +"%Y-%m-%dT%H:%M:%SZ")/' \
+    --s3-prefix "raw/pa1-recipients/test/time=$(date -u +'%Y-%m-%dT%H:%M:%SZ')/" \
     --s3-chunk-size-mb 10 \
-    --s3-upload-parallel-factor 4
+    --s3-upload-parallel-factor 4 \
+    --log-level debug
 ```
 
 ### TODO
