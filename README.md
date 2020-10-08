@@ -7,6 +7,9 @@ parallel. It's ment to be used for gigabyte-sized tables.
 There is no guarantees about consistency of the dataset with regard to writes to the
 table during the script work.
 
+The script is designed to be used in a AWS Glue `PythonShell` Job hence doesn't depend
+on anything but `boto3`.
+
 ### Requirements
 
 * Python >= 3.6.
