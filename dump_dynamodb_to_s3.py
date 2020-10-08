@@ -137,6 +137,8 @@ def read_table_segment_worker(
 
 
 class Chunk:
+    """Wrap BytesIO to be passed as a file-like object for reading."""
+
     def __init__(self, number=1):
         self.number = number
         self.buffer = io.BytesIO()
@@ -188,6 +190,7 @@ def upload_chunks_worker(
     s3_prefix: str,
     number_of_queue_writers: Value,
 ):
+    """Upload chunks from the queue."""
     client = boto3.client("s3")
 
     while number_of_queue_writers.value > 0 or not queue.empty():
