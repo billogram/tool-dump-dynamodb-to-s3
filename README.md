@@ -19,7 +19,7 @@ on anything but `boto3`.
 
 ### Quick start
 
-```
+```bash
 git clone https://github.com/billogram/dump-dynamodb-to-s3.git
 cd dump-dynamodb-to-s3
 python3 -m venv .venv
@@ -30,7 +30,7 @@ python3 dump.py --table-name TABLE --s3-bucket BUCKET
 
 ### Advanced usage
 
-```
+```bash
 export AWS_ACCESS_KEY_ID=XXXX AWS_SESSION_TOKEN=XXXXXXXXXXX AWS_DEFAULT_REGION=eu-west-1
 python3 dump.py \
     --table-name TABLE \
