@@ -19,11 +19,6 @@ KB = 1024
 MB = KB * KB
 MEMORY_LIMIT = 500 * MB
 
-logger = logging.getLogger(__name__)
-handler = logging.StreamHandler()
-handler.setFormatter(logging.Formatter("%(asctime)s [%(levelname)s] - %(message)s"))
-logger.addHandler(handler)
-
 
 def dump(
     *,
@@ -129,7 +124,7 @@ def read_table_segment_worker(
         )
     ):
         page_queue.put(serialize(page))
-        logger.debug(
+        logger.info(
             f"Page downloaded."
             f" Segment: {segment+1}/{total_segments}."
             f" Number of items: {len(page['Items'])}."
@@ -199,7 +194,7 @@ def upload_chunks_worker(
         except Empty:
             continue
         key = f"part_{chunk.number:03}.json"
-        logger.debug(f"Uploading {(chunk.size() / MB):.1f}Mb of chunk {key}... ")
+        logger.info(f"Uploading {(chunk.size() / MB):.1f}Mb chunk {key}... ")
         client.upload_fileobj(chunk.fileobj(), s3_bucket, s3_prefix + key)
         logger.info(f"Uploaded chunk {key}.")
     logger.debug("upload_chunks_worker exited.")
@@ -217,9 +212,15 @@ def option(name, default=None) -> str:
         return str(default)
 
 
+logger = logging.getLogger(path.basename(__file__))
+handler = logging.StreamHandler()
+formatter = logging.Formatter("%(asctime)s %(name)s [%(levelname)s] - %(message)s")
+handler.setFormatter(formatter)
+logger.addHandler(handler)
+log_level = option("log-level", "info")
+logger.setLevel(log_level.upper())
+
 if __name__ == "__main__":
-    log_level = option("log-level", "info")
-    logger.setLevel(log_level.upper())
 
     # Source options
     table_name = option_required("table-name")
