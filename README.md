@@ -20,8 +20,8 @@ on anything but `boto3`.
 ### Quick start
 
 ```bash
-git clone https://github.com/billogram/dump-dynamodb-to-s3.git
-cd dump-dynamodb-to-s3
+git clone https://github.com/billogram/tool-dump-dynamodb-to-s3.git
+cd tool-dump-dynamodb-to-s3
 python3 -m venv .venv
 source .venv/bin/activate
 pip3 install -r requirements.txt
