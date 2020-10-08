@@ -33,10 +33,10 @@ python3 dump.py --table-name TABLE --s3-bucket BUCKET
 ```
 export AWS_ACCESS_KEY_ID=XXXX AWS_SESSION_TOKEN=XXXXXXXXXXX AWS_DEFAULT_REGION=eu-west-1
 python3 dump.py \
-    --table-name pa1-recipients \
-    --s3-bucket billogram-alpha-data-lake \
+    --table-name TABLE \
+    --s3-bucket BUCKET \
     --total-segments 4 \
-    --s3-prefix "raw/pa1-recipients/test/time=$(date -u +'%Y-%m-%dT%H:%M:%SZ')/" \
+    --s3-prefix "raw/TABLE/test/time=$(date -u +'%Y-%m-%dT%H:%M:%SZ')/" \
     --s3-chunk-size-mb 10 \
     --s3-upload-parallel-factor 4 \
     --log-level debug
