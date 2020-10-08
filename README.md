@@ -10,7 +10,7 @@ table during the script work.
 The script is designed to be used in a AWS Glue `PythonShell` Job hence doesn't depend
 on anything but `boto3`.
 
-⚠️ AWS changes extra for scan operations.
+⚠️ AWS charges extra for scan operations.
 
 ### Requirements
 
