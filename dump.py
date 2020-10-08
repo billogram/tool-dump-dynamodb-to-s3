@@ -199,10 +199,10 @@ def upload_chunks_worker(
             chunk = queue.get(timeout=1)
         except Empty:
             continue
-        key = f"part_{chunk.number:03}.json"
-        logger.info(f"Uploading {(chunk.size() / MB):.1f}Mb chunk {key}... ")
-        client.upload_fileobj(chunk.fileobj(), s3_bucket, s3_prefix + key)
-        logger.info(f"Uploaded chunk {key}.")
+        file_name = f"part_{chunk.number:03}.json"
+        logger.info(f"Uploading {(chunk.size() / MB):.1f}Mb chunk {file_name}... ")
+        client.upload_fileobj(chunk.fileobj(), s3_bucket, s3_prefix + file_name)
+        logger.info(f"Uploaded chunk {file_name}.")
     logger.debug("upload_chunks_worker exited.")
 
 
