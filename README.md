@@ -34,7 +34,7 @@ python3 dump.py \
     --s3-bucket BUCKET \
     --total-segments 4 \
     --s3-prefix 'raw/dynampdb/TABLE/run_time=$(date -u +"%Y-%m-%dT%H:%M:%SZ")/' \
-    --s3-chunk-size-mb 10
+    --s3-chunk-size-mb 10 \
     --s3-upload-parallel-factor 4
 ```
 
