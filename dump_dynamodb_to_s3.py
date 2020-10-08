@@ -4,13 +4,12 @@ import ctypes
 import functools
 import io
 from queue import Empty
-import time
 from datetime import datetime
 from os import cpu_count
 import sys
 import json
 import logging
-from multiprocessing import Lock, Process, Queue, Value
+from multiprocessing import Process, Queue, Value
 from typing import Callable
 
 import boto3
