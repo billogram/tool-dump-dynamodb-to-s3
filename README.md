@@ -4,6 +4,9 @@ A script to perform parallel scan of a AWS DynamoDB table and save its rows as
 a JSON dataset in a S3 bucket. The processes to read and write the data are run in
 parallel. It's ment to be used for gigabyte-sized tables.
 
+There is no guarantees about consistency of the dataset with regard to writes to the
+table during the script work.
+
 ### Requirements
 
 * Python >= 3.6.
