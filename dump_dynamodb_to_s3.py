@@ -216,12 +216,13 @@ def option(name, default=None) -> str:
 
 if __name__ == "__main__":
     log_level = option("log-level", "info")
-    if log_level:
-        logger.setLevel(log_level.upper())
+    logger.setLevel(log_level.upper())
 
+    # Source options
     table_name = option_required("table-name")
     total_segments = int(option("total-segments", default=cpu_count()))
 
+    # Target options
     run_time = datetime.now().isoformat() + "Z"
     default_s3_prefix = f"raw/{table_name}/dynamodb/full-load/run_time={run_time}/"
     s3_prefix = option("s3-prefix", default=default_s3_prefix)
