@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 
 import ctypes
-import functools
 import io
 from queue import Empty
 from datetime import datetime
-from os import cpu_count
+from os import cpu_count, path
 import sys
 import json
 import logging
@@ -30,7 +29,6 @@ def dump(
     s3_upload_parallel_factor,
 ):
     """Dump a DynamoDB table to a S3 bucket in parallel."""
-
     page_queue = Queue()
     chunk_queue = Queue(maxsize=MEMORY_LIMIT // s3_chunk_size_mb // MB)
 
@@ -41,7 +39,7 @@ def dump(
     for segment in range(total_segments):
         read_processes.append(
             Process(
-                target=with_countdown(read_table_segment_worker, readers_countdown),
+                target=WithCountdown(read_table_segment_worker, readers_countdown),
                 kwargs=dict(
                     table_name=table_name,
                     segment=segment,
@@ -52,7 +50,7 @@ def dump(
         )
 
     to_chunks_process = Process(
-        target=with_countdown(to_chunks_worker, chunkers_countdown),
+        target=WithCountdown(to_chunks_worker, chunkers_countdown),
         kwargs=dict(
             queue_in=page_queue,
             queue_out=chunk_queue,
@@ -82,19 +80,27 @@ def dump(
         p.join()
 
 
-def with_countdown(f: Callable, countdown: Value):
-    """Decrement the countdown value after each execution of the function."""
+class WithCountdown:
+    """
+    Decorator to communicate upstream the number of alive workers.
 
-    @functools.wraps(f)
-    def wrapper(*args, **kwargs):
+    If implemented as a function with functools.wraps it fails pickling.
+    """
+
+    def __init__(self, func: Callable, countdown: Value):
+        self.func = func
+        self.countdown = countdown
+
+    def __call__(self, *args, **kwargs):
+        """Decrement the countdown value after each execution of the function."""
         try:
-            return f(*args, **kwargs)
+            return self.func(*args, **kwargs)
         finally:
-            with countdown.get_lock():
-                countdown.value -= 1
-            logger.debug(f"{f.__name__} exited. {countdown.value} running.")
-
-    return wrapper
+            with self.countdown.get_lock():
+                self.countdown.value -= 1
+            logger.debug(
+                f"{self.func.__name__} exited. {self.countdown.value} running."
+            )
 
 
 def read_table_segment_worker(
