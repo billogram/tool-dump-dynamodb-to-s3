@@ -2,12 +2,12 @@
 
 A script to perform parallel scan of a AWS DynamoDB table and save its rows as
 a JSON dataset in a S3 bucket. The processes to read and write the data are run in
-parallel. It's ment to be used for gigabyte-sized tables.
+parallel. It's meant to be used for gigabyte-sized tables.
 
-There is no guarantees about consistency of the dataset with regard to writes to the
+There is no guarantee about consistency of the dataset with regard to writes to the
 table during the script work.
 
-The script is designed to be used in a AWS Glue `PythonShell` Job hence doesn't depend
+The script is designed to be used in a AWS Glue `pythonshell` Job hence doesn't depend
 on anything but `boto3`.
 
 ⚠️ AWS charges extra for scan operations.
