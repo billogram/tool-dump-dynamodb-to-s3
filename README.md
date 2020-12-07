@@ -1,5 +1,7 @@
 # Dump a DynamoDB table to S3
 
+⚠️ Since November 2020 AWS supports the export [without code](https://aws.amazon.com/blogs/aws/new-export-amazon-dynamodb-table-data-to-data-lake-amazon-s3/) hence there is no really a reason to use this tool. 
+
 A script to perform parallel scan of a AWS DynamoDB table and save its rows as
 a JSON dataset in a S3 bucket. The processes to read and write the data are run in
 parallel. It's meant to be used for gigabyte-sized tables.
